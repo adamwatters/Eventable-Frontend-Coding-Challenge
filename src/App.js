@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import fetchEvents from './fetchEvents'
+import Event from './Event'
 
 class App extends Component {
   constructor(props) {
@@ -9,20 +9,19 @@ class App extends Component {
     this.state = {fetching: false, events:[]};
   }
 
-  componentDidMount() {
-    fetchEvents().then((events) => console.log(this.setState({})));
+  componentWillMount() {
+    this.setState({fetching: true})
+    fetchEvents().then((response) => this.setState({fetching: false, events: response.results}));
   }
 
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        {this.state.fetching ? (
+          <div>Fetching...</div>
+        ) : (
+          <div>{this.state.events.map((event) => <Event title={event.title} key={event.id}/>)}</div>
+        )}
       </div>
     );
   }
