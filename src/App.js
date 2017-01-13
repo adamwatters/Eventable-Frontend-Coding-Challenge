@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import fetchEvents from './fetchEvents'
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {fetching: false, events:[]};
+  }
+
+  componentDidMount() {
+    fetchEvents().then((events) => console.log(this.setState({})));
+  }
+
   render() {
     return (
       <div className="App">
