@@ -2,7 +2,9 @@ import spoofEventsData from './spoofEventsData'
 
 const spoofFetchEvents = () => {
   return new Promise((resolve) => {
-    resolve(spoofEventsData);
+    setTimeout(() => {
+      resolve(spoofEventsData)
+    }, 1000)
   })
 }
 

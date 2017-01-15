@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import moment from 'moment'
 import TitleInput from './TitleInput'
 import DateInput from './DateInput'
-import moment from 'moment'
+import Submit from './Submit'
 
-import { FormGroup, Button, HelpBlock } from 'react-bootstrap';
 
 class Form extends Component {
   constructor(props) {
@@ -26,13 +26,14 @@ class Form extends Component {
       this.setState({ endDateTime: moment(e.target.value) })
     }
 
-    this.handleSubmit = (addEvent) => {
-      addEvent({
+    this.handleSubmit = () => {
+      props.addEvent({
         tempId: moment().format(),
         title: this.state.title,
-        start_time: this.state.startDateTime.format('YYYY-MM-DDTHH:MM'),
-        end_time: this.state.endDateTime.format('YYYY-MM-DDTHH:MM')
+        start_time: this.state.startDateTime.format('YYYY-MM-DDTHH:mm'),
+        end_time: this.state.endDateTime.format('YYYY-MM-DDTHH:mm')
       })
+      props.closeFormModal()
     }
   }
 
@@ -88,24 +89,10 @@ class Form extends Component {
           validationState={this.dateValidationState('end')} 
           handleChange={this.handleEndDateChange}
           label='End'/>
-        <FormGroup
-          controlId="event-start-date"
-          validationState={this.formValidationState()} >
-          <Button 
-            type="submit"
-            onClick={(e) => {
-              e.preventDefault()
-              this.handleSubmit(this.props.addEvent)
-            }}
-            bsStyle="primary"
-            disabled={!this.formIsValid()}
-            >
-            Add Event
-          </Button>
-          <HelpBlock>
-            {this.datePairHasError() ? "Your event defies chronological sense. Please fix." : null}
-          </HelpBlock>
-        </FormGroup>
+        <Submit validationState={this.formValidationState()}
+                handleSubmit={this.handleSubmit}
+                formIsValid={this.formIsValid()}
+                formHasError={this.datePairHasError()}/>
       </form>
     );
   }

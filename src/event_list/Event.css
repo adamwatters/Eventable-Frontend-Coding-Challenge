@@ -1,0 +1,6 @@
+.event {
+  border-radius: 2px;
+  border: 1px solid grey;
+  background-color: lightgrey;
+  padding: 16px;
+}
