@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import moment from 'moment'
 import TitleInput from './TitleInput'
 import DateInput from './DateInput'
@@ -7,6 +7,11 @@ import Errors from './Errors'
 
 
 class Form extends Component {
+  static propTypes = {
+    closeFormModal: PropTypes.func.isRequired,
+    addEvent: PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.state = {

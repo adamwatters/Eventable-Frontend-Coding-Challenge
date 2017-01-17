@@ -9,7 +9,7 @@ const request = {
   
 const eventsRequest = new Request('https://api.eventable.com/v1/events/', request);
 
-const fetch = () => {
+const fetchEvents = () => {
   return fetch(eventsRequest).then((response) => {
       if (response.ok) {
         return response.json()
@@ -22,6 +22,6 @@ const fetch = () => {
     })
 }
 
-export default fetch;
+export default fetchEvents;
 
 

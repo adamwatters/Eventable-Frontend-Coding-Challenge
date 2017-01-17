@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import './App.css';
 import { Navbar, Grid, Row, Col, Button, Modal } from 'react-bootstrap';
-// import fetchEvents from './fetchEvents'
-import spoofFetchEvents from './spoofFetchEvents'
+import moment from 'moment'
 import EventList from './event_list/EventList'
+import EventListControls from './event_list_controls/EventListControls'
 import Form from './form/Form'
-import Search from './search/Search'
-
 
 class App extends Component {
+  static propTypes = {
+    fetchEvents: PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +18,9 @@ class App extends Component {
       fetching: false, 
       events:[], 
       search: '',
+      sort: 'title'
     }
+    this.fetchEvents = props.fetchEvents
     this.addEvent = (event) => {
       this.setState((prevState) => {
         return {events: prevState.events.concat(event)};
@@ -24,6 +28,11 @@ class App extends Component {
     }
     this.updateSearch = (search) => {
       this.setState({ search: search })
+    }
+    this.makeUpdateSort = (sortSetting) => {
+      return () => {
+        this.setState({ sort: sortSetting })
+      }
     }
     this.openFormModal = () => {
       this.setState({ showFormModal: true });
@@ -35,16 +44,37 @@ class App extends Component {
 
   componentWillMount() {
     this.setState({fetching: true})
-    spoofFetchEvents().then((response) => {
+    this.fetchEvents().then((response) => {
       this.setState({fetching: false, events: response.results})
     })
   }
 
-  eventsFilteredBySearch() {
-    if (this.state.search === '') return this.state.events;
-    return this.state.events.filter((event) => {
+  eventsFilteredAndSorted() {
+    return this.filterEvents(this.sortEvents(this.state.events))
+  }
+
+  filterEvents(events) {
+    if (this.state.search === '') return events;
+    return events.filter((event) => {
       return  event.title.toLowerCase().match(this.state.search.toLowerCase())
     })
+  }
+
+  sortEvents(events) {
+    if (this.state.sort === 'title') {
+      return events.sort((a, b) => {
+        if(a.title < b.title) return -1;
+        if(a.title > b.title) return 1;
+        return 0;
+      })
+    };
+    if (this.state.sort === 'startTime') {
+      return events.sort((a, b) => {
+        if(moment(a.start_time).isBefore(moment(b.start_time))) return -1;
+        if(moment(a.start_time).isAfter(moment(b.start_time))) return 1;
+        return 0;
+      })
+    }
   }
 
   render() {
@@ -68,13 +98,16 @@ class App extends Component {
                 Add Event
               </Button>
               <br/>
-              <Search updateSearch={this.updateSearch}/>
+              <EventListControls 
+                currentSort={this.state.sort}
+                makeUpdateSort={this.makeUpdateSort}
+                updateSearch={this.updateSearch}/>
             </Col>
             <Col xs={12} sm={8}>
               {this.state.fetching ? 
                 <div>Fetching...</div> 
               : 
-                <EventList events={this.eventsFilteredBySearch()} />
+                <EventList events={this.eventsFilteredAndSorted()} />
               }
             </Col>
           </Row>

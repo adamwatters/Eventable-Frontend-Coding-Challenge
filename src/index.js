@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 
+import fetchEvents from './fetchEvents'
+// import spoofFetchEvents from './spoofFetchEvents'
+
 ReactDOM.render(
-  <App />,
+  <App fetchEvents={fetchEvents}/>,
   document.getElementById('root')
 );
