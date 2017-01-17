@@ -1,20 +1,23 @@
 import React, { PropTypes } from 'react'
 import {Button } from 'react-bootstrap';
 
-const SortButton = ({sortName, updateSort}) => {
+const SortButton = ({displayName, sortName, makeUpdateSort, currentSort}) => {
   return (
     <Button
       bsStyle="primary"
-      onClick={updateSort}
+      disabled={sortName === currentSort}
+      onClick={makeUpdateSort(sortName)}
       block>
-      {sortName}
+      {displayName}
     </Button>
   )
 }
 
 SortButton.propTypes = {
-  updateSort: PropTypes.func.isRequired,
+  makeUpdateSort: PropTypes.func.isRequired,
   sortName: PropTypes.string.isRequired,
+  displayName: PropTypes.string.isRequired,
+  currentSort: PropTypes.string.isRequired,
 }
 
 export default SortButton;
