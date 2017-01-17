@@ -63,8 +63,10 @@ class App extends Component {
   sortEvents(events) {
     if (this.state.sort === 'title') {
       return events.sort((a, b) => {
-        if(a.title < b.title) return -1;
-        if(a.title > b.title) return 1;
+        const titleA = a.title.toLowerCase()
+        const titleB = b.title.toLowerCase()
+        if(titleA < titleB) return -1;
+        if(titleA > titleB) return 1;
         return 0;
       })
     };
