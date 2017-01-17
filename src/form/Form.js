@@ -48,7 +48,7 @@ class Form extends Component {
   }
 
   datePairIsValid() {
-    return this.state.startDateTime.isBefore(this.state.endDateTime)  
+    return this.state.startDateTime.isSameOrBefore(this.state.endDateTime)  
   }
 
   datePairHasError() {

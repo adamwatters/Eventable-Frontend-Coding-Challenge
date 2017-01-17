@@ -16,9 +16,11 @@ class App extends Component {
       fetching: false, 
       events:[], 
       search: '',
-    };
+    }
     this.addEvent = (event) => {
-      this.setState({ events: this.state.events.concat(event) })
+      this.setState((prevState) => {
+        return {events: prevState.events.concat(event)};
+      });
     }
     this.updateSearch = (search) => {
       this.setState({ search: search })
