@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
-const DateInput = ({label, validationState, handleChange}) => {
+const DateInput = ({label, validationState, handleChange, min, max}) => {
   return (
         <FormGroup
           validationState={validationState}

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
-import { FormGroup, Button, HelpBlock } from 'react-bootstrap';
+import { FormGroup, Button } from 'react-bootstrap';
 
-const Submit = ({formIsValid, formHasError, validationState, handleSubmit}) => {
+const Submit = ({formIsValid, validationState, handleSubmit}) => {
   return (
         <FormGroup
           controlId="event-start-date"
@@ -17,9 +17,6 @@ const Submit = ({formIsValid, formHasError, validationState, handleSubmit}) => {
             >
             Add Event
           </Button>
-          <HelpBlock>
-            {formHasError ? "Event ends before it begins." : null}
-          </HelpBlock>
         </FormGroup>
     )
 }
@@ -27,8 +24,7 @@ const Submit = ({formIsValid, formHasError, validationState, handleSubmit}) => {
 Submit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   validationState: PropTypes.string,
-  formIsValid: PropTypes.bool,
-  formHasError: PropTypes.bool
+  formIsValid: PropTypes.bool
 }
 
 export default Submit

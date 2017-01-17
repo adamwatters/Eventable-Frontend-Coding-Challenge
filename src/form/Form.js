@@ -3,6 +3,7 @@ import moment from 'moment'
 import TitleInput from './TitleInput'
 import DateInput from './DateInput'
 import Submit from './Submit'
+import Errors from './Errors'
 
 
 class Form extends Component {
@@ -76,6 +77,7 @@ class Form extends Component {
   }
 
   render() {
+    const formValidationState = this.formValidationState();
     return (
       <form>
         <TitleInput 
@@ -89,9 +91,10 @@ class Form extends Component {
           validationState={this.dateValidationState('end')} 
           handleChange={this.handleEndDateChange}
           label='End'/>
-        <Submit validationState={this.formValidationState()}
+        <Submit validationState={formValidationState}
                 handleSubmit={this.handleSubmit}
-                formIsValid={this.formIsValid()}
+                formIsValid={this.formIsValid()}/>
+        <Errors  validationState={formValidationState}
                 formHasError={this.datePairHasError()}/>
       </form>
     );
